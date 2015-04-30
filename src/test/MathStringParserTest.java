@@ -23,7 +23,7 @@ public class MathStringParserTest extends Assert {
     }
 
     @Test
-    public void testParse() {
+    public void testParseResultType() {
         assertThat(this.sut.parse(""), instanceOf(Stack.class));
     }
 
