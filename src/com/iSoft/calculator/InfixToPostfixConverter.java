@@ -61,19 +61,10 @@ public class InfixToPostfixConverter extends Stack implements IConverter {
 
             if (tokenHasOneElement(token) && isOperator(firstCharacterOfToken)) {
 
-                while (stackHasMoreOperators(operatorStack) &&
-                        characterOfTokenHasHigherPrecedence(operatorStack, firstCharacterOfToken)) {
-
-
-                    postfix.append(" ").append(operatorStack.pop());
-                }
+                appendOperatorsWithLowerPrecedence(operatorStack, firstCharacterOfToken, postfix);
 
                 if (firstCharacterOfToken == ')') {
-                    String operator = operatorStack.pop();
-                    while (operator.charAt(0) != '(') {
-                        postfix.append(" ").append(operator);
-                        operator = operatorStack.pop();
-                    }
+                    appendParenthesisOperators(operatorStack, postfix);
                 } else {
                     operatorStack.push(token);
                 }
@@ -91,6 +82,23 @@ public class InfixToPostfixConverter extends Stack implements IConverter {
 
         return postfix.toString();
 
+    }
+
+    private void appendOperatorsWithLowerPrecedence(Stack<String> operatorStack, char firstCharacterOfToken, StringBuilder postfix) {
+        while (stackHasMoreOperators(operatorStack) &&
+                characterOfTokenHasHigherPrecedence(operatorStack, firstCharacterOfToken)) {
+
+
+            postfix.append(" ").append(operatorStack.pop());
+        }
+    }
+
+    private void appendParenthesisOperators(Stack<String> operatorStack, StringBuilder postfix) {
+        String operator = operatorStack.pop();
+        while (operator.charAt(0) != '(') {
+            postfix.append(" ").append(operator);
+            operator = operatorStack.pop();
+        }
     }
 
     private boolean stackHasMoreOperators(Stack operatorStack) {
