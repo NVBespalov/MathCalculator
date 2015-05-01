@@ -45,13 +45,13 @@ public class InfixToPostfixConverter extends Stack implements IConverter {
     @Override
     public String convert(String infix) {
 
-        Stack operatorStack = new Stack();
+        Stack<String> operatorStack = new Stack <> ();
 
         char firstCharacterOfToken;
 
         StringTokenizer parser = new StringTokenizer(infix, "+-*/^() ", true);
 
-        StringBuffer postfix = new StringBuffer(infix.length());
+        StringBuilder postfix = new StringBuilder(infix.length());
 
         while (parser.hasMoreTokens()) {
 
@@ -65,13 +65,13 @@ public class InfixToPostfixConverter extends Stack implements IConverter {
                         characterOfTokenHasHigherPrecedence(operatorStack, firstCharacterOfToken))
 
 
-                    postfix.append(" ").append((String) operatorStack.pop());
+                    postfix.append(" ").append(operatorStack.pop());
 
                 if (firstCharacterOfToken == ')') {
-                    String operator = (String) operatorStack.pop();
+                    String operator = operatorStack.pop();
                     while (operator.charAt(0) != '(') {
                         postfix.append(" ").append(operator);
-                        operator = (String) operatorStack.pop();
+                        operator = operatorStack.pop();
                     }
                 } else
                     operatorStack.push(token);
@@ -85,7 +85,7 @@ public class InfixToPostfixConverter extends Stack implements IConverter {
         }
 
         while (stackHasMoreOperators(operatorStack))
-            postfix.append(" ").append((String) operatorStack.pop());
+            postfix.append(" ").append(operatorStack.pop());
 
         return postfix.toString();
 
