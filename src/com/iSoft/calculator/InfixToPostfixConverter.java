@@ -51,7 +51,7 @@ public class InfixToPostfixConverter extends Stack implements IConverter {
 
         StringTokenizer parser = new StringTokenizer(infix, "+-*/^() ", true);
 
-        StringBuilder postfix = new StringBuilder(infix.length());
+        StringBuilder postfixStringBuilder = new StringBuilder(infix.length());
 
         while (parser.hasMoreTokens()) {
 
@@ -61,10 +61,10 @@ public class InfixToPostfixConverter extends Stack implements IConverter {
 
             if (tokenHasOneElement(token) && isOperator(firstCharacterOfToken)) {
 
-                appendOperatorsWithLowerPrecedence(operatorStack, firstCharacterOfToken, postfix);
+                appendOperatorsWithLowerPrecedence(operatorStack, firstCharacterOfToken, postfixStringBuilder);
 
                 if (firstCharacterOfToken == ')') {
-                    appendParenthesisOperators(operatorStack, postfix);
+                    appendParenthesisOperators(operatorStack, postfixStringBuilder);
                 } else {
                     operatorStack.push(token);
                 }
@@ -72,15 +72,15 @@ public class InfixToPostfixConverter extends Stack implements IConverter {
             } else if (tokenHasOneElement(token) && tokenCharacterIsSpace(firstCharacterOfToken)) {
 
             } else {
-                postfix.append(" ").append(token);
+                postfixStringBuilder.append(" ").append(token);
             }
 
         }
 
         while (stackHasMoreOperators(operatorStack))
-            postfix.append(" ").append(operatorStack.pop());
+            postfixStringBuilder.append(" ").append(operatorStack.pop());
 
-        return postfix.toString();
+        return postfixStringBuilder.toString();
 
     }
 
