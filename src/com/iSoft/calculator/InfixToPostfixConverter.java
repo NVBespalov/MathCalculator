@@ -53,22 +53,22 @@ public class InfixToPostfixConverter extends Stack implements IConverter {
 
         while (parser.hasMoreTokens()) {
 
-            String token = parser.nextToken();
+            String currentToken = parser.nextToken();
 
-            if (tokenHasOneElement(token) && tokenIsOperator(token)) {
+            if (tokenHasOneElement(currentToken) && tokenIsOperator(currentToken)) {
 
-                appendOperatorsWithLowerPrecedence(operatorStack, token, postfixStringBuilder);
+                appendOperatorsWithLowerPrecedence(operatorStack, currentToken, postfixStringBuilder);
 
-                if (tokenIsClosingParenthesis(token)) {
+                if (tokenIsClosingParenthesis(currentToken)) {
                     appendParenthesisOperators(operatorStack, postfixStringBuilder);
                 } else {
-                    operatorStack.push(token);
+                    operatorStack.push(currentToken);
                 }
 
-            } else if (tokenHasOneElement(token) && tokenIsSpace(token)) {
+            } else if (tokenHasOneElement(currentToken) && tokenIsSpace(currentToken)) {
 
             } else {
-                postfixStringBuilder.append(" ").append(token);
+                postfixStringBuilder.append(" ").append(currentToken);
             }
 
         }
