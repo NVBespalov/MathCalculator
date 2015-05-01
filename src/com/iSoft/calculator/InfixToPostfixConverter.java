@@ -5,16 +5,16 @@ import java.util.StringTokenizer;
 
 public class InfixToPostfixConverter extends Stack implements IConverter {
 
-    private boolean isOperator(char character) {
-
+    private boolean tokenIsOperator(String token) {
+        char character = token.charAt(0);
         return character == '+' || character == '-' || character == '*' || character == '/' || character == '^'
-                || character == '(' || character == ')';
+                || character == '(' || tokenIsClosingParenthesis(token);
 
     }
 
-    private boolean tokenCharacterIsSpace(char c) {
+    private boolean tokenIsSpace(String token) {
 
-        return (c == ' ');
+        return (token.charAt(0) == ' ');
 
     }
 
@@ -47,8 +47,6 @@ public class InfixToPostfixConverter extends Stack implements IConverter {
 
         Stack<String> operatorStack = new Stack <> ();
 
-        char firstCharacterOfToken;
-
         StringTokenizer parser = new StringTokenizer(infix, "+-*/^() ", true);
 
         StringBuilder postfixStringBuilder = new StringBuilder(infix.length());
@@ -57,19 +55,17 @@ public class InfixToPostfixConverter extends Stack implements IConverter {
 
             String token = parser.nextToken();
 
-            firstCharacterOfToken = token.charAt(0);
+            if (tokenHasOneElement(token) && tokenIsOperator(token)) {
 
-            if (tokenHasOneElement(token) && isOperator(firstCharacterOfToken)) {
+                appendOperatorsWithLowerPrecedence(operatorStack, token, postfixStringBuilder);
 
-                appendOperatorsWithLowerPrecedence(operatorStack, firstCharacterOfToken, postfixStringBuilder);
-
-                if (firstCharacterOfToken == ')') {
+                if (tokenIsClosingParenthesis(token)) {
                     appendParenthesisOperators(operatorStack, postfixStringBuilder);
                 } else {
                     operatorStack.push(token);
                 }
 
-            } else if (tokenHasOneElement(token) && tokenCharacterIsSpace(firstCharacterOfToken)) {
+            } else if (tokenHasOneElement(token) && tokenIsSpace(token)) {
 
             } else {
                 postfixStringBuilder.append(" ").append(token);
@@ -84,20 +80,23 @@ public class InfixToPostfixConverter extends Stack implements IConverter {
 
     }
 
-    private void appendOperatorsWithLowerPrecedence(Stack<String> operatorStack, char firstCharacterOfToken, StringBuilder postfix) {
-        while (stackHasMoreOperators(operatorStack) &&
-                characterOfTokenHasHigherPrecedence(operatorStack, firstCharacterOfToken)) {
+    private boolean tokenIsClosingParenthesis(String token) {
+        return token.charAt(0) == ')';
+    }
 
+    private void appendOperatorsWithLowerPrecedence(Stack<String> operatorStack, String token, StringBuilder postfix) {
+        while (stackHasMoreOperators(operatorStack) &&
+                tokenHasHigherPrecedence(operatorStack, token)) {
 
             postfix.append(" ").append(operatorStack.pop());
         }
     }
 
     private void appendParenthesisOperators(Stack<String> operatorStack, StringBuilder postfix) {
-        String operator = operatorStack.pop();
-        while (operator.charAt(0) != '(') {
-            postfix.append(" ").append(operator);
-            operator = operatorStack.pop();
+        String operatorToken = operatorStack.pop();
+        while (operatorToken.charAt(0) != '(') {
+            postfix.append(" ").append(operatorToken);
+            operatorToken = operatorStack.pop();
         }
     }
 
@@ -105,8 +104,8 @@ public class InfixToPostfixConverter extends Stack implements IConverter {
         return !operatorStack.empty();
     }
 
-    private boolean characterOfTokenHasHigherPrecedence(Stack operatorStack, char firstCharacterOfToken) {
-        return !lowerPrecedence(lastOperator(operatorStack), firstCharacterOfToken);
+    private boolean tokenHasHigherPrecedence(Stack operatorStack, String token) {
+        return !lowerPrecedence(lastOperator(operatorStack), token.charAt(0));
     }
 
     private char lastOperator(Stack operatorStack) {
