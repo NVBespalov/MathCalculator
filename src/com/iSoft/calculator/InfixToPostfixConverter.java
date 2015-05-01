@@ -73,8 +73,9 @@ public class InfixToPostfixConverter extends Stack implements IConverter {
                         postfix.append(" ").append(operator);
                         operator = operatorStack.pop();
                     }
-                } else
+                } else {
                     operatorStack.push(token);
+                }
 
             } else if (tokenHasOneElement(token) && tokenCharacterIsSpace(firstCharacterOfToken)) {
 
