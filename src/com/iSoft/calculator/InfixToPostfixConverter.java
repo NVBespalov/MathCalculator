@@ -62,10 +62,11 @@ public class InfixToPostfixConverter extends Stack implements IConverter {
             if (tokenHasOneElement(token) && isOperator(firstCharacterOfToken)) {
 
                 while (stackHasMoreOperators(operatorStack) &&
-                        characterOfTokenHasHigherPrecedence(operatorStack, firstCharacterOfToken))
+                        characterOfTokenHasHigherPrecedence(operatorStack, firstCharacterOfToken)) {
 
 
                     postfix.append(" ").append(operatorStack.pop());
+                }
 
                 if (firstCharacterOfToken == ')') {
                     String operator = operatorStack.pop();
