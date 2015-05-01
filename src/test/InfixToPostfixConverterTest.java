@@ -31,8 +31,7 @@ public class InfixToPostfixConverterTest extends Assert {
 
     @Test
     public void testParsePlusResult() {
-        String a = this.sut.convert("2+2");
-        assertEquals(sut.convert("2+2"), " 2 2 +");
+        assertEquals(" 2 2 +", sut.convert("2+2"));
     }
 
 }

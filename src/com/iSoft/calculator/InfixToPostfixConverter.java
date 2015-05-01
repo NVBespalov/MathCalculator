@@ -12,9 +12,9 @@ public class InfixToPostfixConverter extends Stack implements IConverter {
 
     }
 
-    private boolean tokenIsSpace(String token) {
+    private boolean tokenIsNotSpace(String token) {
 
-        return (token.charAt(0) == ' ');
+        return !(token.charAt(0) == ' ');
 
     }
 
@@ -65,9 +65,7 @@ public class InfixToPostfixConverter extends Stack implements IConverter {
                     operatorStack.push(currentToken);
                 }
 
-            } else if (tokenHasOneElement(currentToken) && tokenIsSpace(currentToken)) {
-
-            } else {
+            } else if (tokenHasOneElement(currentToken) && tokenIsNotSpace(currentToken)) {
                 postfixStringBuilder.append(" ").append(currentToken);
             }
 
