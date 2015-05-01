@@ -23,7 +23,7 @@ public class PostfixEvaluatorTest extends TestCase {
     public void testEvaluate() throws Exception {
         IConverter converter = new InfixToPostfixConverter();
         String infixString = "2 + (2 * 2/(3-2))";
-        String postfixString = converter.parse(infixString);
+        String postfixString = converter.convert(infixString);
         assertEquals(6.0, sut.evaluate(postfixString));
     }
 }

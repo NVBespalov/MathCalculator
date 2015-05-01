@@ -26,13 +26,13 @@ public class InfixToPostfixConverterTest extends Assert {
 
     @Test
     public void testParseResultType() {
-        assertThat(this.sut.parse(""), instanceOf(String.class));
+        assertThat(this.sut.convert(""), instanceOf(String.class));
     }
 
     @Test
     public void testParsePlusResult() {
-        String a = this.sut.parse("2+2");
-        assertEquals(sut.parse("2+2"), " 2 2 +");
+        String a = this.sut.convert("2+2");
+        assertEquals(sut.convert("2+2"), " 2 2 +");
     }
 
 }

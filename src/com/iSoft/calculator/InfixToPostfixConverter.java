@@ -43,7 +43,7 @@ public class InfixToPostfixConverter extends Stack implements IConverter {
     }
 
     @Override
-    public String parse(String infix) {
+    public String convert(String infix) {
 
         Stack operatorStack = new Stack();
 
