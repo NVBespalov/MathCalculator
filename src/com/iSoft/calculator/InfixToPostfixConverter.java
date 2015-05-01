@@ -12,7 +12,7 @@ public class InfixToPostfixConverter extends Stack implements IConverter {
 
     }
 
-    private boolean isSpace(char c) {
+    private boolean tokenCharacterIsSpace(char c) {
 
         return (c == ' ');
 
@@ -61,8 +61,9 @@ public class InfixToPostfixConverter extends Stack implements IConverter {
 
             if (tokenHasOneElement(token) && isOperator(firstCharacterOfToken)) {
 
-                while (!operatorStack.empty() &&
-                        !lowerPrecedence(((String) operatorStack.peek()).charAt(0), firstCharacterOfToken))
+                while (stackHasMoreOperators(operatorStack) &&
+                        characterOfTokenHasHigherPrecedence(operatorStack, firstCharacterOfToken))
+
 
                     postfix.append(" ").append((String) operatorStack.pop());
 
@@ -75,7 +76,7 @@ public class InfixToPostfixConverter extends Stack implements IConverter {
                 } else
                     operatorStack.push(token);
 
-            } else if (tokenHasOneElement(token) && isSpace(firstCharacterOfToken)) {
+            } else if (tokenHasOneElement(token) && tokenCharacterIsSpace(firstCharacterOfToken)) {
 
             } else {
                 postfix.append(" ").append(token);
@@ -83,11 +84,23 @@ public class InfixToPostfixConverter extends Stack implements IConverter {
 
         }
 
-        while (!operatorStack.empty())
+        while (stackHasMoreOperators(operatorStack))
             postfix.append(" ").append((String) operatorStack.pop());
 
         return postfix.toString();
 
+    }
+
+    private boolean stackHasMoreOperators(Stack operatorStack) {
+        return !operatorStack.empty();
+    }
+
+    private boolean characterOfTokenHasHigherPrecedence(Stack operatorStack, char firstCharacterOfToken) {
+        return !lowerPrecedence(lastOperator(operatorStack), firstCharacterOfToken);
+    }
+
+    private char lastOperator(Stack operatorStack) {
+        return ((String) operatorStack.peek()).charAt(0);
     }
 
     private boolean tokenHasOneElement(String token) {
