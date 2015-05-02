@@ -36,6 +36,8 @@ public class ShuntingYardAlgorithm {
             if (tokenIsSpace(currentToken)) continue;
             if (tokenIsNumber(currentToken)) addTokenToOutput(currentToken);
             if (tokenIsOperator(currentToken)) handleTokenIsOperatorCase(currentToken);
+            if (tokenIsLeftParenthesis(currentToken)) pushTokenToOperatorStack(currentToken);
+            if (tokenIsRightParenthesis(currentToken)) handleOperatorIsRightParenthesisCase();
 
         }
         return postfixStringBuilder.toString();
@@ -174,5 +176,51 @@ public class ShuntingYardAlgorithm {
     private void pushTokenToOperatorStack(String token) {
         operatorStack.push(token);
     }
+
+    /**
+     * Indicates whatever operator token is right parenthesis
+     *
+     * @param operatorToken Operator token
+     * @return true if operator token is right parenthesis false if not
+     */
+    private boolean tokenIsRightParenthesis(String operatorToken) {
+        return Objects.equals(operatorToken, ")");
+    }
+
+    /**
+     * Indicates whatever operator token is left parenthesis
+     *
+     * @param operatorToken Operator token
+     * @return true if operator token is left parenthesis false if not
+     */
+    private boolean tokenIsLeftParenthesis(String operatorToken) {
+        return Objects.equals(operatorToken, "(");
+    }
+
+    /**
+     * Handler for case when operator token is right Parenthesis
+     */
+    private void handleOperatorIsRightParenthesisCase() {
+        String lastTokenInOperatorStack = operatorStack.peek();
+        while (!operatorStack.empty() && !tokenIsLeftParenthesis(lastTokenInOperatorStack)) {
+            addTokenToOutput(operatorStack.pop());
+            lastTokenInOperatorStack = operatorStack.peek();
+        }
+        operatorStack.pop();
+        lastTokenInOperatorStack = operatorStack.peek();
+        if (tokenIsFunction(lastTokenInOperatorStack)) addTokenToOutput(operatorStack.pop());
+        // @TODO If the stack runs out without finding a left parenthesis, then there are mismatched parentheses.
+    }
+
+    /**
+     * Indicates whatever operator token is function
+     *
+     * @param operatorToken Operator token
+     * @return true if operator token is function false if not
+     */
+    private boolean tokenIsFunction(String operatorToken) {
+        return Objects.equals(operatorToken, "sin") || Objects.equals(operatorToken, "max");
+    }
+
 
 }
