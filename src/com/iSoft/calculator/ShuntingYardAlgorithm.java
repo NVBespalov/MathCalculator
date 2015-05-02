@@ -34,11 +34,12 @@ public class ShuntingYardAlgorithm {
         while (parser.hasMoreTokens()) {
             currentToken = parser.nextToken();
             if (tokenIsSpace(currentToken)) continue;
-
+            if (tokenIsNumber(currentToken)) addTokenToOutput(currentToken);
 
         }
         return postfixStringBuilder.toString();
     }
+
     /**
      * Indicates whatever token is space
      *
@@ -49,4 +50,27 @@ public class ShuntingYardAlgorithm {
         return token.charAt(0) == ' ';
     }
 
+    /**
+     * Indicates whatever token is number
+     *
+     * @param token Token to check
+     * @return true if token is numeric false if not
+     */
+    public static boolean tokenIsNumber(String token) {
+        try {
+            //noinspection ResultOfMethodCallIgnored
+            Double.parseDouble(token);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Add given token to postfix string builder chain
+     * @param token Token to add
+     */
+    private void addTokenToOutput(String token) {
+        postfixStringBuilder.append(" ").append(token);
+    }
 }
