@@ -18,20 +18,20 @@ public class InfixToPostfixConverter extends Stack implements IConverter {
 
     }
 
-    private boolean lowerPrecedence(char leftOperator, char rightOperator) {
+    private boolean lowerPrecedence(String leftOperator, String rightOperator) {
 
-        switch (leftOperator) {
+        switch (leftOperator.charAt(0)) {
 
             case '+':
             case '-':
-                return !(rightOperator == '+' || rightOperator == '-');
+                return !(rightOperator.charAt(0) == '+' || rightOperator.charAt(0) == '-');
 
             case '*':
             case '/':
-                return rightOperator == '^' || rightOperator == '(';
+                return rightOperator.charAt(0) == '^' || rightOperator.charAt(0) == '(';
 
             case '^':
-                return rightOperator == '(';
+                return rightOperator.charAt(0) == '(';
 
             case '(':
                 return true;
@@ -83,7 +83,7 @@ public class InfixToPostfixConverter extends Stack implements IConverter {
     }
 
     private void appendOperatorsWithHigherOrSamePrecedence(Stack<String> operatorStack, String token, StringBuilder postfix) {
-        while (stackHasMoreOperators(operatorStack) && tokenHasLowerOrSamePrecedence(operatorStack, token)) {
+        while (stackHasMoreOperators(operatorStack) && tokenHasLowerOrSamePrecedence(lastOperator(operatorStack), token)) {
             postfix.append(" ").append(operatorStack.pop());
         }
     }
@@ -100,12 +100,12 @@ public class InfixToPostfixConverter extends Stack implements IConverter {
         return !operatorStack.empty();
     }
 
-    private boolean tokenHasLowerOrSamePrecedence(Stack<String> operatorStack, String token) {
-        return !lowerPrecedence(lastOperator(operatorStack), token.charAt(0));
+    private boolean tokenHasLowerOrSamePrecedence(String leftSideToken, String rightSideToken) {
+        return !lowerPrecedence(leftSideToken, rightSideToken);
     }
 
-    private char lastOperator(Stack <String> operatorStack) {
-        return operatorStack.peek().charAt(0);
+    private String lastOperator(Stack <String> operatorStack) {
+        return operatorStack.peek();
     }
 
     private boolean tokenHasOneElement(String token) {
