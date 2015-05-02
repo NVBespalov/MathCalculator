@@ -33,10 +33,20 @@ public class ShuntingYardAlgorithm {
         postfixStringBuilder = new StringBuilder(stringToConvert.length());
         while (parser.hasMoreTokens()) {
             currentToken = parser.nextToken();
+            if (tokenIsSpace(currentToken)) continue;
+
 
         }
         return postfixStringBuilder.toString();
     }
-
+    /**
+     * Indicates whatever token is space
+     *
+     * @param token Infix string token
+     * @return true if token is space false if not
+     */
+    private boolean tokenIsSpace(String token) {
+        return token.charAt(0) == ' ';
+    }
 
 }
