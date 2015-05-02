@@ -35,6 +35,7 @@ public class ShuntingYardAlgorithm {
             currentToken = parser.nextToken();
             if (tokenIsSpace(currentToken)) continue;
             if (tokenIsNumber(currentToken)) addTokenToOutput(currentToken);
+            if (tokenIsOperator(currentToken)) handleTokenIsOperatorCase(currentToken);
 
         }
         return postfixStringBuilder.toString();
@@ -73,4 +74,105 @@ public class ShuntingYardAlgorithm {
     private void addTokenToOutput(String token) {
         postfixStringBuilder.append(" ").append(token);
     }
+
+    /**
+     * Indicates whatever operator token is function
+     *
+     * @param token Token to check
+     * @return true if operator token is function false if not
+     */
+    private boolean tokenIsOperator(String token) {
+        char character = token.charAt(0);
+        switch (character) {
+            case '+':
+                return true;
+            case '-':
+                return true;
+            case '*':
+                return true;
+            case '/':
+                return true;
+            case '^':
+                return true;
+            default:
+                return false;
+        }
+
+    }
+
+    /**
+     * Handler for case when token is operator
+     * @param firstOperatorToken The O1 operator
+     */
+    private void handleTokenIsOperatorCase(String firstOperatorToken) {
+
+        if (!operatorStack.empty()) {
+            String secondOperator = operatorStack.peek();
+            while (!operatorStack.empty()
+                    &&
+                    (operatorTokenIsLeftAssociative(firstOperatorToken) && operatorTokenPrecedence(firstOperatorToken) <= operatorTokenPrecedence(secondOperator))
+                    || (!operatorTokenIsLeftAssociative(firstOperatorToken) && operatorTokenPrecedence(firstOperatorToken) < operatorTokenPrecedence(secondOperator))) {
+                addTokenToOutput(operatorStack.pop());
+
+                if (operatorStack.empty()) break;
+                secondOperator = operatorStack.peek();
+            }
+        }
+
+        pushTokenToOperatorStack(firstOperatorToken);
+    }
+
+    /**
+     * Indicates whatever operator token is left associative
+     * @param operatorToken Operator token
+     * @return true if operator token is left associative false if not
+     */
+    private boolean operatorTokenIsLeftAssociative(String operatorToken) {
+        switch (operatorToken) {
+            case "^":
+                return false;
+            case "*":
+                return true;
+            case "/":
+                return true;
+            case "+":
+                return true;
+            case "-":
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    /**
+     * Returns operator token precedence value
+     *
+     * @param operatorToken Operator token Precedence
+     * @return numeric value of operator precedence
+     */
+    private int operatorTokenPrecedence(String operatorToken) {
+        switch (operatorToken) {
+            case "^":
+                return 4;
+            case "*":
+                return 3;
+            case "/":
+                return 3;
+            case "+":
+                return 2;
+            case "-":
+                return 2;
+            default:
+                return 0;
+        }
+    }
+
+    /**
+     * Push token to operator stack
+     * @param token Token to push
+     */
+    private void pushTokenToOperatorStack(String token) {
+        operatorStack.push(token);
+    }
+
 }
