@@ -1,4 +1,4 @@
-package com.iSoft.calculator;
+package com.iSoft.calculator.evaluator;
 
 import java.util.Deque;
 import java.util.LinkedList;

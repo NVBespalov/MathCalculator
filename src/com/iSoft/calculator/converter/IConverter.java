@@ -1,4 +1,4 @@
-package com.iSoft.calculator;
+package com.iSoft.calculator.converter;
 
 public interface IConverter {
     IAlgorithm algorithm = null;

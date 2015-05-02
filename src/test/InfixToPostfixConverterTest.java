@@ -1,8 +1,8 @@
 package test;
 
-import com.iSoft.calculator.IConverter;
-import com.iSoft.calculator.InfixToPostfixConverter;
-import com.iSoft.calculator.ShuntingYardAlgorithm;
+import com.iSoft.calculator.converter.IConverter;
+import com.iSoft.calculator.converter.InfixToPostfixConverter;
+import com.iSoft.calculator.converter.ShuntingYardAlgorithm;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

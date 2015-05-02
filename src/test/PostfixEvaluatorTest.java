@@ -1,6 +1,10 @@
 package test;
 
-import com.iSoft.calculator.*;
+import com.iSoft.calculator.converter.IConverter;
+import com.iSoft.calculator.converter.InfixToPostfixConverter;
+import com.iSoft.calculator.converter.ShuntingYardAlgorithm;
+import com.iSoft.calculator.evaluator.IEvaluator;
+import com.iSoft.calculator.evaluator.PostfixEvaluator;
 import junit.framework.TestCase;
 
 

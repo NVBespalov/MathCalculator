@@ -1,6 +1,6 @@
 package test;
 
-import com.iSoft.calculator.ShuntingYardAlgorithm;
+import com.iSoft.calculator.converter.ShuntingYardAlgorithm;
 import junit.framework.TestCase;
 
 public class ShuntingYardAlgorithmTest extends TestCase {
