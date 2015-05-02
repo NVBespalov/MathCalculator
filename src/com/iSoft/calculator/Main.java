@@ -14,7 +14,7 @@ public class Main {
         do {
             Scanner reader = new Scanner(System.in);
             System.out.println("\nВведите выражение: ");
-            String infixString = reader.next();
+            String infixString = reader.nextLine();
             IConverter converter = new InfixToPostfixConverter(new ShuntingYardAlgorithm());
             IEvaluator evaluator = new PostfixEvaluator();
             System.out.print("Результат: " + evaluator.evaluate(converter.convert(infixString)) + "\n");
