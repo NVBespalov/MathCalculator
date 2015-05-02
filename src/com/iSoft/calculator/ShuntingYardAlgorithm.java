@@ -38,8 +38,9 @@ public class ShuntingYardAlgorithm {
             if (tokenIsOperator(currentToken)) handleTokenIsOperatorCase(currentToken);
             if (tokenIsLeftParenthesis(currentToken)) pushTokenToOperatorStack(currentToken);
             if (tokenIsRightParenthesis(currentToken)) handleOperatorIsRightParenthesisCase();
-
         }
+        // @TODO If the operator token on the top of the stack is a parenthesis, then there are mismatched parentheses.
+        popOperatorStackToOutput();
         return postfixStringBuilder.toString();
     }
 
@@ -222,5 +223,12 @@ public class ShuntingYardAlgorithm {
         return Objects.equals(operatorToken, "sin") || Objects.equals(operatorToken, "max");
     }
 
-
+    /**
+     * Pop out all operators to postfix string builder chain
+     */
+    private void popOperatorStackToOutput() {
+        while (!operatorStack.isEmpty()) {
+            addTokenToOutput(operatorStack.pop());
+        }
+    }
 }
