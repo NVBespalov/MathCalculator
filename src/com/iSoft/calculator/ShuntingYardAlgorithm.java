@@ -31,7 +31,10 @@ public class ShuntingYardAlgorithm {
         operatorStack = new Stack<>();
         StringTokenizer parser = new StringTokenizer(stringToConvert, "+-*/^() ", true);
         postfixStringBuilder = new StringBuilder(stringToConvert.length());
+        while (parser.hasMoreTokens()) {
+            currentToken = parser.nextToken();
 
+        }
         return postfixStringBuilder.toString();
     }
 
