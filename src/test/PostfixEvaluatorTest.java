@@ -1,9 +1,6 @@
 package test;
 
-import com.iSoft.calculator.IEvaluator;
-import com.iSoft.calculator.IConverter;
-import com.iSoft.calculator.InfixToPostfixConverter;
-import com.iSoft.calculator.PostfixEvaluator;
+import com.iSoft.calculator.*;
 import junit.framework.TestCase;
 
 
@@ -21,7 +18,7 @@ public class PostfixEvaluatorTest extends TestCase {
     }
 
     public void testEvaluate() throws Exception {
-        IConverter converter = new InfixToPostfixConverter();
+        IConverter converter = new InfixToPostfixConverter(new ShuntingYardAlgorithm());
         String infixString = "2 + (2 * 2/(3-2))";
         String postfixString = converter.convert(infixString);
         assertEquals(6.0, sut.evaluate(postfixString));

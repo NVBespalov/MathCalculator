@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 /**
  * Algorithm to convert string from infix to postfix notation
  */
-public class ShuntingYardAlgorithm {
+public class ShuntingYardAlgorithm implements IAlgorithm{
 
     /**
      * Stack to hold operators

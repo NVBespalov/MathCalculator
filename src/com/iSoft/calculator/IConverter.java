@@ -1,7 +1,6 @@
 package com.iSoft.calculator;
 
-import java.util.Stack;
-
 public interface IConverter {
+    IAlgorithm algorithm = null;
     String convert(String string);
 }

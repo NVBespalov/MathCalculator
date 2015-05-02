@@ -2,6 +2,7 @@ package test;
 
 import com.iSoft.calculator.IConverter;
 import com.iSoft.calculator.InfixToPostfixConverter;
+import com.iSoft.calculator.ShuntingYardAlgorithm;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,7 +17,7 @@ public class InfixToPostfixConverterTest extends Assert {
 
     @Before
     public void setUp() throws Exception {
-        this.sut = new InfixToPostfixConverter();
+        this.sut = new InfixToPostfixConverter(new ShuntingYardAlgorithm());
     }
 
     @After
